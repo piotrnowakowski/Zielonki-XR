@@ -4,11 +4,16 @@ import { useStudioStore } from '../state/store'
 import { useSaveStatus } from '../services/autosave'
 import { transferWorkspace, useSyncStatus } from '../services/mikrusSync'
 import './workspaceSync.css'
+import { isCompetitionBuild } from '../services/competitionMode'
 
 export function WorkspaceSync() {
  const save=useSaveStatus(),sync=useSyncStatus()
  const state=useStudioStore(useShallow(s=>({hydrated:s.hydrated})))
  const [open,setOpen]=useState(false)
+ if (isCompetitionBuild()) return <aside className="workspace-save-bar" aria-label="Local workspace saving">
+  <span role="status">{!state.hydrated?'Choose a project':save.phase==='error'?'Save failed':save.phase==='saving'?'Saving locally…':'Saved locally'}</span>
+  {save.error && <p role="alert">{save.error}</p>}
+ </aside>
  return <>
   <aside className="workspace-save-bar" aria-label="Workspace saving and synchronization">
    <span role="status">{!state.hydrated?'Choose a project':save.phase==='error'?'Save failed':save.phase==='saving'?'Saving locally…':'Saved locally'}</span>

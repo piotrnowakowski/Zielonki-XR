@@ -6,6 +6,7 @@ import { applyLockedWorkspace, lockWorkspace, runWorkspaceActivity } from './wor
 import { mergeWorkspaces, sameWorkspace, staleWorkspace, validateWorkspace, type SharedVersion, type SyncRecord, type SyncWrite } from '../domain/workspaceSync'
 import type { PersistedWorkspace } from '../domain/types'
 import { readSyncJson, unavailableSyncMessage } from './syncResponse'
+import { competitionSyncMessage, isCompetitionBuild } from './competitionMode'
 
 const KEY = 'house-sync-connection-key'
 export const isSyncSecure = () => location.protocol === 'https:' || ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)
@@ -19,6 +20,7 @@ const apiRoot = () => import.meta.env.VITE_SYNC_API_URL ?? 'https://natan203-202
 let localConfigured = false
 let publicConnection = false
 export async function detectPublicConnection() {
+  if (isCompetitionBuild()) return false
   if (!isSyncSecure()) return false
   try {
     const response = await fetch(`${apiRoot()}/api/sync/access`, { cache: 'no-store', credentials: 'omit', signal: AbortSignal.timeout(5000), redirect: 'error' })
@@ -27,6 +29,7 @@ export async function detectPublicConnection() {
   return publicConnection
 }
 export async function detectLocalConnection() {
+  if (isCompetitionBuild()) return false
   if (!import.meta.env.DEV || !['localhost', '127.0.0.1'].includes(location.hostname)) return false
   try {
     const response = await fetch('/api/local-sync/configuration', { headers: { 'X-House-Local-Sync': '1' }, cache: 'no-store', signal: AbortSignal.timeout(5000) })
@@ -36,6 +39,7 @@ export async function detectLocalConnection() {
 }
 export class SyncHttpError extends Error { constructor(public status: number, message: string) { super(message) } }
 async function request<T>(path: string, body?: unknown): Promise<T> {
+  if (isCompetitionBuild()) throw new Error(competitionSyncMessage)
   if (!isSyncSecure() || new URL(apiRoot(), location.href).protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(new URL(apiRoot(), location.href).hostname)) throw new Error('Synchronization requires HTTPS.')
   const key = connectionKey()
   if (!key && !localConfigured) await detectLocalConnection()
@@ -77,6 +81,7 @@ async function commitShared(candidate: PersistedWorkspace, remote: SharedVersion
   finish(`Synchronized with Mikrus · server version ${ack.serverVersion}`)
 }
 export async function syncWorkspace() {
+  if (isCompetitionBuild()) { useSyncStatus.setState({ message: competitionSyncMessage }); return }
   if (useSyncStatus.getState().busy) return
   releaseLock = lockWorkspace('Synchronization in progress. Finish or cancel it before editing.')
   useSyncStatus.setState({ busy: true, message: 'Synchronizing…', conflict: null })
@@ -118,6 +123,7 @@ export async function syncWorkspace() {
 }
 /** Explicit one-way transfer; a download never issues a write to Mikrus. */
 export async function transferWorkspace(direction: 'get' | 'push') {
+  if (isCompetitionBuild()) { useSyncStatus.setState({ message: competitionSyncMessage }); return }
   if (useSyncStatus.getState().busy) return
   releaseLock = lockWorkspace('Transferring project…')
   useSyncStatus.setState({ busy: true, conflict: null, message: direction === 'get' ? 'Getting from Mikrus…' : 'Pushing to Mikrus…' })

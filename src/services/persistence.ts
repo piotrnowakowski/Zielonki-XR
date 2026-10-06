@@ -5,8 +5,9 @@ import { mergeProjects, sameProject } from '../domain/projectMerge'
 import { stableJson } from '../domain/workspaceSync'
 import type { PersistedWorkspace, Polygon2, ProjectV2, ProposalRecord } from '../domain/types'
 import { zielonkiKnowledgeBase, zielonkiPlot } from '../../knowledge-bank/zielonki/data'
+import { isCompetitionBuild } from './competitionMode'
 
-const DB_NAME = 'house-web-mcp'
+const DB_NAME = isCompetitionBuild() ? 'zielonki-xr-workspaces' : 'house-web-mcp'
 const STORE_NAME = 'projects'
 const DB_VERSION = 2
 /** Key of the single autosave written before projects were stored per ref; migrated on first read. */

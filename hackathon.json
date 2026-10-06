@@ -1,0 +1,37 @@
+{
+  "name": "Zielonki XR",
+  "event": "Meta VR Start Developer Competition 2026",
+  "rulesUrl": "https://start-developer-competition-26.devpost.com/rules",
+  "checkedOn": "2026-10-06",
+  "track": "Productivity",
+  "division": "Adapted / Significantly Updated Experience",
+  "entryStartUtc": "2026-09-24T17:00:00Z",
+  "deadlineUtc": "2026-11-18T20:00:00Z",
+  "deadlineWarsaw": "2026-11-18T21:00:00+01:00",
+  "language": "en",
+  "status": "repository-prepared",
+  "source": {
+    "repository": "https://github.com/piotrnowakowski/House_Web_MCP",
+    "copyType": "independent-copy-with-history",
+    "preCompetitionCommit": "9307823dadbbca8a1d32eda64034e40a13c6f49b",
+    "adaptationBaselineCommit": "6736ebf17d0e576aea0e05f6e4829cf464e32f12",
+    "projectPath": "project-data/zielonki-rear-bath-room/project.json",
+    "projectRevision": 82
+  },
+  "deployment": { "automatic": false, "publishedUrl": null },
+  "submission": { "videoUrl": null, "videoDurationSeconds": null, "devpostUrl": null, "releaseTag": null },
+  "requirements": [
+    { "id": "eligibility", "status": "pending", "evidence": null },
+    { "id": "developer-account-and-start-membership", "status": "pending", "evidence": null },
+    { "id": "significant-adaptation", "status": "pending", "evidence": null },
+    { "id": "hands-end-to-end", "status": "pending", "evidence": null },
+    { "id": "english-experience-and-materials", "status": "pending", "evidence": null },
+    { "id": "asset-rights-and-unbranded-experience", "status": "pending", "evidence": null },
+    { "id": "meta-policy-review", "status": "pending", "evidence": null },
+    { "id": "device-performance-and-function", "status": "pending", "evidence": null },
+    { "id": "accessible-playable-build", "status": "pending", "evidence": null },
+    { "id": "demonstration-video", "status": "pending", "evidence": null },
+    { "id": "submission-form", "status": "pending", "evidence": null },
+    { "id": "immutable-release", "status": "pending", "evidence": null }
+  ]
+}

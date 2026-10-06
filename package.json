@@ -1,5 +1,5 @@
 {
-  "name": "house_web_mcp",
+  "name": "zielonki-xr",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -9,17 +9,19 @@
   "scripts": {
     "dev:sync": "tsx server/main.ts",
     "build:sync": "tsc -p tsconfig.server.json && node scripts/build-sync-api.mjs",
-    "dev": "vite",
-    "dev:interior": "vite --host 127.0.0.1 --port 5187 --strictPort",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview",
+    "dev": "vite --mode competition --host 127.0.0.1 --port 5198 --strictPort",
+    "dev:interior": "vite --mode competition --host 127.0.0.1 --port 5187 --strictPort",
+    "build": "tsc -b && vite build --mode competition",
+    "preview": "vite preview --host 127.0.0.1 --port 5199 --strictPort",
     "test": "vitest run",
     "test:e2e": "playwright test tests/browser-v2.spec.ts --config=playwright.config.ts",
     "test:interior": "playwright test tests/interior.spec.ts --config=playwright.interior.config.ts",
     "assets:interior": "node scripts/build-interior-assets.mjs",
     "assets:thumbnails": "node scripts/render-interior-thumbnails.mjs",
     "test:watch": "vitest",
-    "lint": "tsc -b --pretty false"
+    "lint": "tsc -b --pretty false",
+    "hackathon:check": "node scripts/check-hackathon.mjs",
+    "hackathon:submission-check": "node scripts/check-hackathon.mjs --submission"
   },
   "dependencies": {
     "@fastify/cors": "^11.3.0",
@@ -27,6 +29,7 @@
     "@react-three/drei": "^10.7.6",
     "@react-three/fiber": "^9.3.0",
     "@react-three/rapier": "^2.2.0",
+    "@react-three/xr": "6.6.31",
     "@thatopen/components": "^3.4.8",
     "@thatopen/fragments": "^3.4.7",
     "camera-controls": "^3.1.2",
@@ -58,5 +61,6 @@
     "typescript": "~5.9.2",
     "vite": "^7.1.4",
     "vitest": "^3.2.4"
-  }
+  },
+  "description": "Hands-first architectural review for Meta VR devices, adapted from House_Web_MCP."
 }

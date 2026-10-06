@@ -1,5 +1,9 @@
 # Data and software attributions
 
+## Competition adaptation
+
+Zielonki XR preserves the MIT-licensed House_Web_MCP history and canonical r82 model. Its separate XR dependency, `@react-three/xr`, is distributed under the MIT license: https://github.com/pmndrs/xr. Repository setup does not yet constitute a working XR experience. See `docs/hackathon/assets.md` for the pending submission asset and branding review.
+
 ## Climate preset
 
 The editable Zielonki, Krakow demonstration preset uses the same monthly
